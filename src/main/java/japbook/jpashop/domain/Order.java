@@ -2,7 +2,9 @@ package japbook.jpashop.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="ORDERS")
@@ -16,14 +18,27 @@ public class Order {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    public Member getMember() {
-        return member;
-    }
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     private LocalDateTime orderDate; //ORDER_DATE, order_date 회사룰에 따라
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
+    public void addOrderItem(OrderItem orderItem) {
+        orderItems.add(orderItem);
+        orderItem.setOrder(this); //현재나의 양방향걸리게
+    }
+
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+    public Member getMember() {
+        return member;
+    }
 
     public Long getId() {
         return id;
@@ -48,4 +63,6 @@ public class Order {
     public void setStatus(OrderStatus status) {
         this.status = status;
     }
+
+
 }
