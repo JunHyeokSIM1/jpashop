@@ -1,6 +1,7 @@
 package japbook.jpashop;
 
 
+import japbook.jpashop.domain.Book;
 import japbook.jpashop.domain.Member;
 import japbook.jpashop.domain.Order;
 import japbook.jpashop.domain.OrderItem;
@@ -23,17 +24,11 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Order order = new Order();
-            order.addOrderItem(new OrderItem());
+            Book book = new Book();
+            book.setName("JPA");
+            book.setAuthor("sims");
 
-
-            /*
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
-
-            em.persist(orderItem);
-            em.persist(order); 단순하게 이렇게 맵핑하여도 상관없다.
-            */
+            em.persist(book);
 
             tx.commit();
         } catch (Exception e) {
@@ -46,6 +41,7 @@ public class JpaMain {
 
         //code 코드를 항상 닫아 주어야 한다. 실제로 디비에 저장하는 트랜젝션은 ?? 디비 컬렉션을 얻어서 일관적인 엔티티 메니저를
         // 꼭 만들어 줘야한다.
+
         emf.close();
 
 
